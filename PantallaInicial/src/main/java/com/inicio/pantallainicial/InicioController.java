@@ -1,6 +1,5 @@
 package com.inicio.pantallainicial;
 
-import com.inicio.pantallainicial.MenuPrincipal.MenuPrincipalController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +30,7 @@ public class InicioController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipal.fxml"));
         try{
             Parent root = fxmlLoader.load();
-            MenuPrincipalController controller = fxmlLoader.getController();
+            MenuPrincipalController controlador = fxmlLoader.getController();
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -39,7 +38,7 @@ public class InicioController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         Stage stagePrincipal = (Stage) btnEntrar.getScene().getWindow();
