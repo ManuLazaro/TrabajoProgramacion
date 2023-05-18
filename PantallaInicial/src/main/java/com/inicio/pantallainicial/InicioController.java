@@ -47,7 +47,22 @@ public class InicioController {
 
     @FXML
     void registrarte(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipal.fxml"));
+        try{
+            Parent root = fxmlLoader.load();
+            MenuPrincipalController controlador = fxmlLoader.getController();
 
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("NBA Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+        Stage stagePrincipal = (Stage) btnRegistrarte.getScene().getWindow();
+        stagePrincipal.close();
     }
 
 }
