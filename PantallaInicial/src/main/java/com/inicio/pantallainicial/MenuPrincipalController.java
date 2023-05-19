@@ -69,7 +69,22 @@ public class MenuPrincipalController {
 
     @FXML
     void estadisticas(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estadisticas.fxml"));
+        try{
+            Parent root = fxmlLoader.load();
+            Estadisticas controlador = fxmlLoader.getController();
 
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("NBA Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+        Stage stagePrincipal = (Stage) btnCrearJugador.getScene().getWindow();
+        stagePrincipal.close();
     }
 
     @FXML
