@@ -34,7 +34,22 @@ public class MenuPrincipalController {
 
     @FXML
     void editarEquipo(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditarEquipo.fxml"));
+        try{
+            Parent root = fxmlLoader.load();
+            EditarEquipoController controlador = fxmlLoader.getController();
 
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("NBA Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+        Stage stagePrincipal = (Stage) btnEditarEquipo.getScene().getWindow();
+        stagePrincipal.close();
     }
 
     @FXML
@@ -44,7 +59,22 @@ public class MenuPrincipalController {
 
     @FXML
     void jugar(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dificultad.fxml"));
+        try{
+            Parent root = fxmlLoader.load();
+            Dificultad controlador = fxmlLoader.getController();
 
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("NBA Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+        Stage stagePrincipal = (Stage) btnJugar.getScene().getWindow();
+        stagePrincipal.close();
     }
 
     @FXML
@@ -66,5 +96,4 @@ public class MenuPrincipalController {
         Stage stagePrincipal = (Stage) btnSalir.getScene().getWindow();
         stagePrincipal.close();
     }
-
 }

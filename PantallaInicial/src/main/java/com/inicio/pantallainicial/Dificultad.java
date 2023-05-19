@@ -58,5 +58,4 @@ public class Dificultad {
         Stage stagePrincipal = (Stage) btnVolver.getScene().getWindow();
         stagePrincipal.close();
     }
-
 }
