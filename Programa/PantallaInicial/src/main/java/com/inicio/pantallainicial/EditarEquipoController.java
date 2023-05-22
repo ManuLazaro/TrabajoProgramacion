@@ -1,5 +1,7 @@
 package com.inicio.pantallainicial;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class EditarEquipoController {
 
@@ -48,6 +56,11 @@ public class EditarEquipoController {
     private TableColumn<?, ?> colNombre;
 
     @FXML
+    private TableColumn<?, ?> colPosicion;
+    private TableView<Jugadores> tablaListado;
+    private ObservableList<Jugadores> jugadores;
+
+    @FXML
     void aplicarCambios(ActionEvent event) {
 
     }
@@ -70,5 +83,38 @@ public class EditarEquipoController {
 
         Stage stagePrincipal = (Stage) btnVolver.getScene().getWindow();
         stagePrincipal.close();
+    }
+    void setBtnAplicar(ActionEvent event) {
+
+    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Creo el observablelist
+        jugadores = FXCollections.observableArrayList();
+
+        // Asigno las columnas con los atributos
+        this.colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
+        this.colAtaque.setCellValueFactory(new PropertyValueFactory("tiro"));
+        this.colDestreza.setCellValueFactory(new PropertyValueFactory("destreza"));
+        this.colDefensa.setCellValueFactory(new PropertyValueFactory("defensa"));
+        this.colPosicion.setCellValueFactory(new PropertyValueFactory("posicion"));
+
+        try {
+            DBManager.loadDriver();
+            DBManager.connect();
+            ResultSet rs = DBManager.getTablaJugadores();
+            while (rs.next()) {
+                String tiro = rs.getString("tiro");
+                String destreza = rs.getString("destreza");
+                String defensa = rs.getString("defensa");
+                String nombre = rs.getString("nombre");
+                String posicion = rs.getString("posicion");
+                //System.out.println(" " + id + " - " + nombre + " - " + ciudad);
+                this.jugadores.add(new Jugadores(tiro,destreza, nombre,defensa,posicion ));
+                this.tablaListado.setItems(this.jugadores);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

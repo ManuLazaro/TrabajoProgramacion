@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,6 +19,8 @@ public class CrearJugador {
 
     @FXML
     private Button btnVolver;
+    @FXML
+    private TextField txtPosicion;
 
     @FXML
     private TextField txtAtaque;
@@ -33,7 +36,25 @@ public class CrearJugador {
 
     @FXML
     void crear(ActionEvent event) {
-
+        DBManager.loadDriver();
+        DBManager.connect();
+        boolean exito= DBManager.insertJugador(txtNombre.getText(),txtAtaque.getText(),txtDefensa.getText(),txtDestreza.getText(), txtPosicion.getText());
+        DBManager.printTablaJugadores();
+        if (exito) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setTitle("Informacion");
+            alert.setContentText("Jugador añadido correctamente");
+            alert.showAndWait();
+            // Cerrar ventana
+            Stage stage = (Stage) this.btnCrear.getScene().getWindow();
+            stage.close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.showAndWait();
+        }
     }
 
     @FXML
