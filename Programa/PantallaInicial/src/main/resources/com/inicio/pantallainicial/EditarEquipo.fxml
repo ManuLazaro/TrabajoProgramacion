@@ -28,6 +28,7 @@
           <TableColumn fx:id="colAtaque" prefWidth="75.0" text="Ataque" />
             <TableColumn fx:id="colDefensa" prefWidth="75.0" text="Defensa" />
             <TableColumn fx:id="colDestreza" prefWidth="75.0" text="Destreza" />
+            <TableColumn fx:id="colPosicion" prefWidth="75.0" text="Posicion" />
         </columns>
       </TableView>
    </children>
