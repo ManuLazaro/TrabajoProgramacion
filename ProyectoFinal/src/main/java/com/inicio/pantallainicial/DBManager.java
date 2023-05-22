@@ -35,9 +35,7 @@ public class DBManager {
 
 
     /**
-     * Intenta cargar el JDBC driver.
-     *
-     * @return true si pudo cargar el driver, false en caso contrario
+     *  cargar el JDBC driver.
      */
     public static boolean loadDriver() {
         try {
@@ -52,9 +50,7 @@ public class DBManager {
     }
 
     /**
-     * Intenta conectar con la base de datos.
-     *
-     * @return true si pudo conectarse, false en caso contrario
+     * conectar con la base de datos.
      */
     public static boolean connect() {
         try {
@@ -144,9 +140,8 @@ public class DBManager {
 
     private static ResultSet getTablaJugadores(int typeForwardOnly, int concurUpdatable) {
         try {
-            int resultSetType = 0;
-            int resultSetConcurrency = 0;
-            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
+            
+            Statement stmt = conn.createStatement(typeForwardOnly, concurUpdatable);
             ResultSet rs = stmt.executeQuery(DB_jugadores_select);
             //stmt.close();
             return rs;
@@ -175,7 +170,7 @@ public class DBManager {
     /**
      * Solicita a la BD insertar un nuevo registro JUGADOR
      */
-    public static boolean insertJugador( String nombre, String defensa, String destreza, String tiro, String posicion) {
+    public static boolean insertJugador(String nombre, String defensa, String destreza, String tiro, String posicion) {
         try {
             // Obtenemos la tabla clientes
             System.out.print("Insertando cliente " + nombre + "...");
@@ -195,6 +190,38 @@ public class DBManager {
             System.out.println("OK!");
             return true;
 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean updateJugador(String nombre, String nuevoNombre, String nuevoDefensa, String nuevoDestreza, String nuevoTiro, String nuevoPosicion) {
+        try {
+            // Obtenemos el jugador
+            System.out.print("Actualizando equipo " + nombre + "... ");
+            ResultSet rs = getjugadores(nombre);
+
+            // Si no existe
+            if (rs == null) {
+                System.out.println("Error. ResultSet null.");
+                return false;
+            }
+
+            // Si tiene un primer registro, lo eliminamos
+            if (rs.first()) {
+                rs.updateString(DB_NOM, nuevoNombre);
+                rs.updateString(DB_TIR, nuevoTiro);
+                rs.updateString(DB_DES, nuevoDestreza);
+                rs.updateString(DB_DEF, nuevoDefensa);
+                rs.updateString(DB_POS, nuevoPosicion);
+                rs.updateRow();
+                rs.close();
+                System.out.println("OK!");
+                return true;
+            } else {
+                System.out.println("ERROR. ResultSet vacío.");
+                return false;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;

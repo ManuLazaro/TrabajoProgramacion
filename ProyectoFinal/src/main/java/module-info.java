@@ -1,10 +1,10 @@
-module com.example.proyectofinal {
+module com.example.pantallainicial {
     requires javafx.controls;
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
     requires java.sql;
 
-    opens com.example.proyectofinal to javafx.fxml;
-    exports com.example.proyectofinal;
+    opens com.inicio.pantallainicial to javafx.fxml;
+    exports com.inicio.pantallainicial;
 }

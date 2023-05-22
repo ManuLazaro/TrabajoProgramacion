@@ -37,8 +37,27 @@ public class CrearJugador {
 
     @FXML
     void crear(ActionEvent event) {
-
+        DBManager.loadDriver();
+        DBManager.connect();
+        boolean exito= DBManager.insertJugador(txtNombre.getText(),txtAtaque.getText(),txtDefensa.getText(),txtDestreza.getText(), txtPosicion.getText());
+        DBManager.printTablaJugadores();
+        if (exito) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setTitle("Informacion");
+            alert.setContentText("Jugador añadido correctamente");
+            alert.showAndWait();
+            // Cerrar ventana
+            Stage stage = (Stage) this.btnCrear.getScene().getWindow();
+            stage.close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.showAndWait();
+        }
     }
+
 
     @FXML
     void volver(ActionEvent event) {
@@ -61,27 +80,8 @@ public class CrearJugador {
         stagePrincipal.close();
         //prueba
     }
-    void botonAlta(ActionEvent event) {
-        DBManager.loadDriver();
-        DBManager.connect();
-        boolean exito= DBManager.insertJugador(txtNombre.getText(),txtAtaque.getText(),txtDefensa.getText(),txtDestreza.getText(), txtPosicion.getText());
-        DBManager.printTablaJugadores();
-        if (exito) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setTitle("Informacion");
-            alert.setContentText("Jugador añadido correctamente");
-            alert.showAndWait();
-            // Cerrar ventana
-            Stage stage = (Stage) this.btnCrear.getScene().getWindow();
-            stage.close();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Error");
-            alert.showAndWait();
-        }
-    }
+
+
 
 }
 
