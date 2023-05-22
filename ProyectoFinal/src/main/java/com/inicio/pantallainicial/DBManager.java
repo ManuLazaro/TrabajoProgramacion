@@ -10,27 +10,33 @@ public class DBManager {
     // Configuración de la conexión a la base de datos
     private static final String DB_HOST = "localhost";
     private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "futbol";
+    private static final String DB_NAME = "nbamanager";
     private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "1234";
-    private static final String DB_MSQ_CONN_OK = "CONEXIÓN CORRECTA";
-    private static final String DB_MSQ_CONN_NO = "ERROR EN LA CONEXIÓN";
+    private static final String DB_PASS = "toor";
+    private static final String DB_MSQ_CONN_OK = "TE HAS CONECTADO A LA BASE DE DATOS";
+    private static final String DB_MSQ_CONN_NO = "CONEXION FALLIDA";
 
-    // Configuración de la tabla Futbol
-    private static final String DB_EQUIPO = "equipos";
-    private static final String DB_EQUIPO_SELECT = "SELECT * FROM " + DB_EQUIPO;
-    private static final String DB_EQUIPO_ID = "id";
-    private static final String DB_EQUIPO_NOM = "nombre";
-    private static final String DB_EQUIPO_CIUDAD = "ciudad";
+    // Configuración de la tabla jugadores
+    private static final String DB_jugadores = "jugadores";
+    private static final String DB_ID = "idjugadores";
+    private static final String DB_COS = "Coste";
+    private static final String DB_DEF = "Defensa";
+    private static final String DB_DES = "Destreza";
+    private static final String DB_NOM = "Nombre";
+    private static final String DB_POS = "Posicion";
+    private static final String DB_TIR = "Tiro";
+
+    private static final String DB_jugadores_select = "SELECT * FROM " + DB_jugadores;
 
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
     //////////////////////////////////////////////////
-    ;
+
 
     /**
      * Intenta cargar el JDBC driver.
+     *
      * @return true si pudo cargar el driver, false en caso contrario
      */
     public static boolean loadDriver() {
@@ -98,73 +104,25 @@ public class DBManager {
     }
 
     //////////////////////////////////////////////////
-    // MÉTODOS DE TABLA FUTBOL
+    // MÉTODOS DE TABLA JUGADORES
     //////////////////////////////////////////////////
-    ;
-
-    // Devuelve
-    // Los argumentos indican el tipo de ResultSet deseado
-    /**
-     * Obtiene toda la tabla equipos de la base de datos
-     * @param resultSetType Tipo de ResultSet
-     * @param resultSetConcurrency Concurrencia del ResultSet
-     * @return ResultSet (del tipo indicado) con la tabla, null en caso de error
-     */
-    public static ResultSet getTablaEquipos(int resultSetType, int resultSetConcurrency) {
-        try {
-            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
-            ResultSet rs = stmt.executeQuery(DB_EQUIPO_SELECT);
-            //stmt.close();
-            return rs;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
-
-    /**
-     * Obtiene toda la tabla equipos de la base de datos
-     *
-     * @return ResultSet (por defecto) con la tabla, null en caso de error
-     */
-    public static ResultSet getTablaEquipos() {
-        return getTablaEquipos(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-    }
-
-    /**
-     * Imprime por pantalla el contenido de la tabla clientes
-     */
-    public static void printTablaEquipos() {
-        try {
-            ResultSet rs = getTablaEquipos(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            while (rs.next()) {
-                String id = rs.getString(DB_EQUIPO_ID);
-                String n = rs.getString(DB_EQUIPO_NOM);
-                String d = rs.getString(DB_EQUIPO_CIUDAD);
-                System.out.println(id + "\t" + n + "\t" + d);
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     //////////////////////////////////////////////////
-    // MÉTODOS DE UN SOLO EQUIPO
+    // MÉTODOS DE UN SOLO JUGADOR
     //////////////////////////////////////////////////
     ;
 
     /**
      * Solicita a la BD el equipo con id indicado
+     *
      * @param id id del equipo
      * @return ResultSet con el resultado de la consulta, null en caso de error
      */
-    public static ResultSet getEquipo(String id) {
+    public static ResultSet getjugadores(String id) {
         try {
             // Realizamos la consulta SQL
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = DB_EQUIPO_SELECT + " WHERE " + DB_EQUIPO_ID + "='" + id + "';";
+            String sql = DB_NOM + " WHERE " + DB_ID + "='" + id + "';";
             //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
             //stmt.close();
@@ -183,85 +141,56 @@ public class DBManager {
         }
     }
 
-    /**
-     * Comprueba si en la BD existe el cliente con id indicado
-     *
-     * @param id id del equipo
-     * @return verdadero si existe, false en caso contrario
-     */
-    public static boolean existsEquipo(String id) {
+
+    private static ResultSet getTablaJugadores(int typeForwardOnly, int concurUpdatable) {
         try {
-            // Obtenemos el cliente
-            ResultSet rs = getEquipo(id);
+            int resultSetType = 0;
+            int resultSetConcurrency = 0;
+            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
+            ResultSet rs = stmt.executeQuery(DB_jugadores_select);
+            //stmt.close();
+            return rs;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    public static void printTablaJugadores() {
+        try {
+            ResultSet rs = getTablaJugadores(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            while (rs.next()) {
 
-            // Si rs es null, se ha producido un error
-            if (rs == null) {
-                return false;
+                String n = rs.getString(DB_NOM);
+                String t = rs.getString(DB_TIR);
+                String D = rs.getString(DB_DES);
+                String d = rs.getString(DB_DEF);
+                String p = rs.getString(DB_POS);
+                System.out.println(n + "\t" + t + "\t" + D + "\t" + d + "\t" +p );
             }
-
-            // Si no existe primer registro
-            if (!rs.first()) {
-                rs.close();
-                return false;
-            }
-
-            // Todo bien, existe el cliente
             rs.close();
-            return true;
-
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * Imprime los datos del cliente con id indicado
-     *
-     * @param id id del cliente
-     */
-    public static void printEquipo(String id) {
-        try {
-            // Obtenemos el cliente
-            ResultSet rs = getEquipo(id);
-            if (rs == null || !rs.first()) {
-                System.out.println("Equipo " + id + " NO EXISTE");
-                return;
-            }
-
-            // Imprimimos su información por pantalla
-            String cid = rs.getString(DB_EQUIPO_ID);
-            String nombre = rs.getString(DB_EQUIPO_NOM);
-            String direccion = rs.getString(DB_EQUIPO_CIUDAD);
-            System.out.println("Equipo " + cid + "\t" + nombre + "\t" + direccion);
-
-        } catch (SQLException ex) {
-            System.out.println("Error al solicitar equipo " + id);
             ex.printStackTrace();
         }
     }
-
     /**
-     * Solicita a la BD insertar un nuevo registro equipo
-     *
-     * @param nombre nombre del equipo
-     * @param ciudad ciudad del equipo
-     * @return verdadero si pudo insertarlo, false en caso contrario
+     * Solicita a la BD insertar un nuevo registro JUGADOR
      */
-    public static boolean insertEquipo(String id,String nombre, String ciudad) {
+    public static boolean insertJugador( String nombre, String defensa, String destreza, String tiro, String posicion) {
         try {
             // Obtenemos la tabla clientes
             System.out.print("Insertando cliente " + nombre + "...");
-            ResultSet rs = getTablaEquipos(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = getTablaJugadores(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
             // Insertamos el nuevo registro
             rs.moveToInsertRow();
-            rs.updateString(DB_EQUIPO_ID, id);
-            rs.updateString(DB_EQUIPO_NOM, nombre);
-            rs.updateString(DB_EQUIPO_CIUDAD, ciudad);
+            rs.updateString(DB_NOM, nombre);
+            rs.updateString(DB_TIR, tiro);
+            rs.updateString(DB_DES, destreza);
+            rs.updateString(DB_DEF, defensa);
+            rs.updateString(DB_POS, posicion);
             rs.insertRow();
 
-            // Todo bien, cerramos ResultSet y devolvemos true
+
             rs.close();
             System.out.println("OK!");
             return true;
@@ -271,81 +200,10 @@ public class DBManager {
             return false;
         }
     }
-
-    /**
-     * Solicita a la BD modificar los datos de un equipo
-     *
-     * @param id id del equipo a modificar
-     * @param nuevoNombre nuevo nombre del equipo
-     * @param nuevaCiudad nueva ciudad del equipo
-     * @return verdadero si pudo modificarlo, false en caso contrario
-     */
-    public static boolean updateEquipo(String id, String nuevoId, String nuevoNombre, String nuevaCiudad) {
-        try {
-            // Obtenemos el equipo
-            System.out.print("Actualizando equipo " + id + "... ");
-            ResultSet rs = getEquipo(id);
-
-            // Si no existe el Resultset
-            if (rs == null) {
-                System.out.println("Error. ResultSet null.");
-                return false;
-            }
-
-            // Si tiene un primer registro, lo eliminamos
-            if (rs.first()) {
-                rs.updateString(DB_EQUIPO_ID, nuevoId);
-                rs.updateString(DB_EQUIPO_NOM, nuevoNombre);
-                rs.updateString(DB_EQUIPO_CIUDAD, nuevaCiudad);
-                rs.updateRow();
-                rs.close();
-                System.out.println("OK!");
-                return true;
-            } else {
-                System.out.println("ERROR. ResultSet vacío.");
-                return false;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * Solicita a la BD eliminar un equipo
-     *
-     * @param id id del equipo a eliminar
-     * @return verdadero si pudo eliminarlo, false en caso contrario
-     */
-    public static boolean deleteEquipo(String id) {
-        try {
-            System.out.print("Eliminando equipo " + id + "... ");
-
-            // Obtenemos el equipo
-            ResultSet rs = getEquipo(id);
-
-            // Si no existe el Resultset
-            if (rs == null) {
-                System.out.println("ERROR. ResultSet null.");
-                return false;
-            }
-
-            // Si existe y tiene primer registro, lo eliminamos
-            if (rs.first()) {
-                rs.deleteRow();
-                rs.close();
-                System.out.println("OK!");
-                return true;
-            } else {
-                System.out.println("ERROR. ResultSet vacío.");
-                return false;
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
 }
+
+
+
+
+
 
