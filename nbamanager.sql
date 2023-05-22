@@ -32,8 +32,12 @@ CREATE TABLE `estadisticas` (
   `Capitan` int NOT NULL,
   KEY `fk_Estadisticas_Usuarios_idx` (`Usuarios_idUsuarios`),
   KEY `fk_Estadisticas_Jugadores1_idx` (`Capitan`),
-  CONSTRAINT `fk_Estadisticas_Jugadores1` FOREIGN KEY (`Capitan`) REFERENCES `jugadores` (`idJugadores`),
+  CONSTRAINT `fk_Estadisticas_Jugadores1` FOREIGN KEY (`Capitan`) REFERENCES `jugadores` (`idJugadores`)
+	ON DELETE cascade
+    ON UPDATE cascade,
   CONSTRAINT `fk_Estadisticas_Usuarios` FOREIGN KEY (`Usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`)
+	ON DELETE cascade
+    ON UPDATE cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,7 +58,7 @@ DROP TABLE IF EXISTS `jugadores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `jugadores` (
-  `idJugadores` int NOT NULL,
+  `idJugadores` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(25) DEFAULT NULL,
   `Posicion` varchar(20) DEFAULT NULL,
   `Tiro` int DEFAULT NULL,
@@ -83,7 +87,7 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `idUsuarios` int NOT NULL,
+  `idUsuarios` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
   `Clave` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idUsuarios`)
