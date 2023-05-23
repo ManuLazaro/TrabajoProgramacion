@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -27,26 +28,42 @@ public class InicioController {
 
     @FXML
     void entrarConCuenta(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipal.fxml"));
-        try{
-            Parent root = fxmlLoader.load();
-            MenuPrincipalController controlador = fxmlLoader.getController();
+        DBManager.loadDriver();
+        DBManager.connect();
+        DBManager.isConnected();
+        if (DBManager.getUsuario(txtUsuario.getText(), txtContraseña.getText()) == true) {
+            FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("MenuPrincipal.fxml"));
 
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("NBA Manager");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e){
-            throw new RuntimeException(e);
+            try {
+                Parent root = (Parent)fxmlLoader.load();
+                MenuPrincipalController controlador = (MenuPrincipalController)fxmlLoader.getController();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("NBA Manager");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException var7) {
+                throw new RuntimeException(var7);
+            }
+
+            Stage stagePrincipal = (Stage)this.btnEntrar.getScene().getWindow();
+            stagePrincipal.close();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("La contraseña o eñ usuario son incorrectos");
+            alert.showAndWait();
         }
 
-        Stage stagePrincipal = (Stage) btnEntrar.getScene().getWindow();
-        stagePrincipal.close();
+        DBManager.close();
     }
 
     @FXML
     void registrarte(ActionEvent event) {
+        DBManager.loadDriver();
+        DBManager.connect();
+        DBManager.isConnected();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipal.fxml"));
         try{
             Parent root = fxmlLoader.load();
@@ -63,6 +80,7 @@ public class InicioController {
 
         Stage stagePrincipal = (Stage) btnRegistrarte.getScene().getWindow();
         stagePrincipal.close();
+        DBManager.close();
     }
 
 }

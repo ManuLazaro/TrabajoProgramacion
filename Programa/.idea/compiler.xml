@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="PantallaInicial" />
         <module name="MenuPrincipal" />
+        <module name="PantallaInicial" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

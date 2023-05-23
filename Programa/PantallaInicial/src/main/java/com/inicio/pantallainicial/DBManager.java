@@ -13,13 +13,13 @@ public class DBManager {
     private static final String DB_NAME = "nbamanager";
     private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "toor";
+    private static final String DB_PASS = "root";
     private static final String DB_MSQ_CONN_OK = "TE HAS CONECTADO A LA BASE DE DATOS";
     private static final String DB_MSQ_CONN_NO = "CONEXION FALLIDA";
 
     // Configuración de la tabla jugadores
     private static final String DB_jugadores = "jugadores";
-    private static final String DB_ID = "idjugadores";
+    private static final String DB_ID_jugadores = "idjugadores";
     private static final String DB_COS = "Coste";
     private static final String DB_DEF = "Defensa";
     private static final String DB_DES = "Destreza";
@@ -28,6 +28,14 @@ public class DBManager {
     private static final String DB_TIR = "Tiro";
 
     private static final String DB_jugadores_select = "SELECT * FROM " + DB_jugadores;
+
+    // Configuracion de la tabla usuarios
+    private static final String DB_usuarios = "usuarios";
+    private static final String DB_ID_usuarios = "idUsuarios";
+    private static final String DB_Clave = "Clave";
+    private static final String DB_Nombre_usuario = "Nombre";
+
+    private static final String DB_usuarios_select = "SELECT * FROM " + DB_usuarios;
 
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
@@ -139,7 +147,7 @@ public class DBManager {
     //////////////////////////////////////////////////
     // MÉTODOS DE UN SOLO JUGADOR
     //////////////////////////////////////////////////
-    ;
+
 
     /**
      * Solicita a la BD el equipo con id indicado
@@ -151,7 +159,7 @@ public class DBManager {
         try {
             // Realizamos la consulta SQL
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = DB_NOM + " WHERE " + DB_ID + "='" + id + "';";
+            String sql = DB_NOM + " WHERE " + DB_ID_jugadores + "='" + id + "';";
             //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
             //stmt.close();
@@ -227,6 +235,49 @@ public class DBManager {
                 System.out.println("ERROR. ResultSet vacío.");
                 return false;
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // MÉTODOS DE USUARIOS
+    //////////////////////////////////////////////////
+
+    private static ResultSet getTablaUsuarios(int resultSetType, int resultSetConcurrency) {
+        try {
+
+            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
+            ResultSet rs = stmt.executeQuery(DB_usuarios_select);
+            //stmt.close();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static ResultSet getTablaUsusarios() {
+        return getTablaUsuarios(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+    }
+    
+    public static boolean getUsuario(String nombre, String clave) {
+        try {
+            // Realizamos la consulta SQL
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = DB_usuarios_select + " WHERE " + DB_Nombre_usuario + "=" + nombre + " and " + DB_Clave + "=" + clave + ";";
+            //System.out.println(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+            //stmt.close();
+
+            // Si no hay primer registro entonces no existe el cliente
+            if (!rs.first()) {
+                return false;
+            }
+
+            // Todo bien, devolvemos el cliente
+            return true;
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
