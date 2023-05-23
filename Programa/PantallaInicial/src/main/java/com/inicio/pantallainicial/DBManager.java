@@ -11,7 +11,7 @@ public class DBManager {
     private static final String DB_HOST = "localhost";
     private static final String DB_PORT = "3306";
     private static final String DB_NAME = "nbamanager";
-    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/nbamanager?serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "root";
     private static final String DB_MSQ_CONN_OK = "TE HAS CONECTADO A LA BASE DE DATOS";
@@ -265,7 +265,7 @@ public class DBManager {
         try {
             // Realizamos la consulta SQL
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = DB_usuarios_select + " WHERE " + DB_Nombre_usuario + "=" + nombre + " and " + DB_Clave + "=" + clave + ";";
+            String sql = DB_usuarios_select + " WHERE " + DB_Nombre_usuario + "=" + nombre + "and" + DB_Clave + "=" + clave + ";";
             //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
             //stmt.close();
