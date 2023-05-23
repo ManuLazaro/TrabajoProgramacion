@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="475.0" prefWidth="591.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inicio.pantallainicial.CrearJugador">
+   <children>
+      <Label layoutX="178.0" layoutY="61.0" text="Crea tu jugador">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" layoutX="250.0" layoutY="158.0" />
+      <Label layoutX="164.0" layoutY="162.0" text="Nombre:" />
+      <Button fx:id="btnVolver" layoutX="427.0" layoutY="404.0" mnemonicParsing="false" onAction="#volver" text="Volver" />
+      <Button fx:id="btnCrear" layoutX="142.0" layoutY="404.0" mnemonicParsing="false" onAction="#crear" text="Crear" />
+      <Label layoutX="167.0" layoutY="208.0" text="Ataque:" />
+      <Label layoutX="164.0" layoutY="296.0" text="Defensa:" />
+      <Label layoutX="163.0" layoutY="251.0" text="Destreza:" />
+      <TextField fx:id="txtAtaque" layoutX="250.0" layoutY="204.0" />
+      <TextField fx:id="txtDefensa" layoutX="250.0" layoutY="292.0" />
+      <TextField fx:id="txtDestreza" layoutX="250.0" layoutY="247.0" />
+      <Label layoutX="164.0" layoutY="335.0" text="Posicion" />
+      <TextField fx:id="txtPosicion" layoutX="250.0" layoutY="331.0" />
+   </children>
+</AnchorPane>
