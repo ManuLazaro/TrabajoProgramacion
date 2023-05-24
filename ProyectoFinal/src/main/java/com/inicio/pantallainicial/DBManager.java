@@ -138,7 +138,7 @@ public class DBManager {
     }
 
 
-    private static ResultSet getTablaJugadores(int typeForwardOnly, int concurUpdatable) {
+    public static ResultSet getTablaJugadores(int typeForwardOnly, int concurUpdatable) {
         try {
             
             Statement stmt = conn.createStatement(typeForwardOnly, concurUpdatable);

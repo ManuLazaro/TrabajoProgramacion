@@ -1,115 +1,68 @@
 package com.inicio.pantallainicial;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import javafx.scene.control.ListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.io.IOException;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class EditarEquipoController {
-
     @FXML
-    private Button btnAplicar;
-
+    private ListView<Jugadores> playerListView;
     @FXML
-    private Button btnVolver;
-
-    @FXML
-    private ComboBox<?> cmbAlapivot;
-
-    @FXML
-    private ComboBox<?> cmbAlero;
-
-    @FXML
-    private ComboBox<?> cmbBase;
-
-    @FXML
-    private ComboBox<?> cmbEscolta;
-
-    @FXML
-    private ComboBox<?> cmbPivot;
-
-    @FXML
-    private TableColumn<?, ?> colAtaque;
-
-    @FXML
-    private TableColumn<?, ?> colDefensa;
-
-    @FXML
-    private TableColumn<?, ?> colDestreza;
-
-    @FXML
-    private TableColumn<?, ?> colNombre;
-    private TableView<Jugadores> tablaListado;
+    void btnVolver(ActionEvent event) {
+    }
     private ObservableList<Jugadores> jugadores;
 
-    @FXML
-    void aplicarCambios(ActionEvent event) {
 
+
+    public EditarEquipoController() {
+        // Simulación de carga de jugadores desde la base de datos
+        jugadores = FXCollections.observableArrayList(
+                new Jugadores("Jugador 1", 80, 90, 70, "Delantero"),
+                new Jugadores("Jugador 2", 85, 80, 75, "Base"),
+                new Jugadores("Jugador 3", 90, 70, 85, "Pivot"),
+                new Jugadores("Jugador 4", 75, 85, 90, "Ala-pívot")
+        );
     }
 
-    @FXML
-    void volver(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipal.fxml"));
-        try{
-            Parent root = fxmlLoader.load();
-            MenuPrincipalController controlador = fxmlLoader.getController();
 
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("NBA Manager");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
-
-        Stage stagePrincipal = (Stage) btnVolver.getScene().getWindow();
-        stagePrincipal.close();
-    }
-    void setBtnAplicar(ActionEvent event) {
-
-    }
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Creo el observablelist
-        jugadores = FXCollections.observableArrayList();
-
-        // Asigno las columnas con los atributos
-        this.colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
-        this.colAtaque.setCellValueFactory(new PropertyValueFactory("tiro"));
-        this.colDestreza.setCellValueFactory(new PropertyValueFactory("destreza"));
-        this.colDefensa.setCellValueFactory(new PropertyValueFactory("defensa"));
-
-        try {
-            DBManager.loadDriver();
-            DBManager.connect();
-            ResultSet rs = DBManager.getTablaJugadores();
-            while (rs.next()) {
-                String tiro = rs.getString("tiro");
-                String destreza = rs.getString("destreza");
-                String defensa = rs.getString("defensa");
-                String nombre = rs.getString("nombre");
-                //System.out.println(" " + id + " - " + nombre + " - " + ciudad);
-                this.jugadores.add(new Jugadores(tiro,destreza, nombre,defensa,posicion ));
-                this.tablaListado.setItems(this.jugadores);
+        @FXML
+        private void initialize() {
+            // Obtener los jugadores de la base de datos y cargarlos en la lista
+            jugadores = FXCollections.observableArrayList();
+            ResultSet rs = DBManager.getTablaJugadores(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            if (rs != null) {
+                try {
+                    while (rs.next()) {
+                        String nombre = rs.getString("Nombre");
+                        int tiro = rs.getInt("Tiro");
+                        int destreza = rs.getInt("Destreza");
+                        int defensa = rs.getInt("Defensa");
+                        String posicion = rs.getString("Posicion");
+                        jugadores.add(new Jugadores(nombre, tiro, destreza, defensa, posicion));
+                    }
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
+
+            playerListView.setItems(jugadores);
         }
 
+
+    @FXML
+    private void seleccionarJugador() {
+        ObservableList<Jugadores> selectedPlayers = playerListView.getSelectionModel().getSelectedItems();
+
+        // Aquí puedes realizar alguna acción con los jugadores seleccionados, como almacenarlos en una lista o hacer algo más con ellos.
+        // Por ejemplo, puedes imprimir sus nombres:
+        for (Jugadores jugador : selectedPlayers) {
+            System.out.println(jugador.getNombre());
+        }
     }
 }
