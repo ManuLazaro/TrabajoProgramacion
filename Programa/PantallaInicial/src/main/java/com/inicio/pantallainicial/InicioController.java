@@ -31,8 +31,7 @@ public class InicioController {
         DBManager.loadDriver();
         DBManager.connect();
         DBManager.isConnected();
-        boolean comprobacion = DBManager.getUsuario(txtUsuario.getText(), txtContraseña.getText());
-        if (comprobacion == true) {
+        if (DBManager.getUsuario(txtUsuario.getText(), txtContraseña.getText()) == true) {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("MenuPrincipal.fxml"));
 
             try {
@@ -53,7 +52,7 @@ public class InicioController {
         else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("La contraseña o eñ usuario son incorrectos");
+            alert.setHeaderText("La contraseña o el usuario son incorrectos");
             alert.showAndWait();
         }
 
@@ -65,22 +64,17 @@ public class InicioController {
         DBManager.loadDriver();
         DBManager.connect();
         DBManager.isConnected();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipal.fxml"));
-        try{
-            Parent root = fxmlLoader.load();
-            MenuPrincipalController controlador = fxmlLoader.getController();
-
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("NBA Manager");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e){
-            throw new RuntimeException(e);
+        if(DBManager.registrar(txtUsuario.getText(), txtContraseña.getText()) == true){
+            Alert aviso = new Alert(Alert.AlertType.INFORMATION);
+            aviso.setTitle("Exito");
+            aviso.setHeaderText("Cuenta creada con exito");
+            aviso.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Esa cuenta ya existe");
+            alert.showAndWait();
         }
-
-        Stage stagePrincipal = (Stage) btnRegistrarte.getScene().getWindow();
-        stagePrincipal.close();
         DBManager.close();
     }
 

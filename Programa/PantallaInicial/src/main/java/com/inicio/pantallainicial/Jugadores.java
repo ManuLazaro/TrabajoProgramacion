@@ -2,12 +2,12 @@ package com.inicio.pantallainicial;
 
 public class Jugadores {
     private String nombre;
-    private String tiro;
+    private int tiro;
     private String destreza;
-    private String defensa;
+    private int defensa;
     private String posicion;
 
-    public Jugadores(String n, String t, String D, String d, String p){
+    public Jugadores(String n, int t, String D, int d, String p){
         this.nombre=n;
         this.tiro=t;
         this.destreza=D;
@@ -23,11 +23,11 @@ public class Jugadores {
         this.nombre=n;
     }
 
-    public String getTiro() {
+    public int getTiro() {
         return tiro;
     }
 
-    public void setTiro(String tiro) {
+    public void setTiro(int tiro) {
         this.tiro = tiro;
     }
 
@@ -39,11 +39,11 @@ public class Jugadores {
         this.destreza = destreza;
     }
 
-    public String getDefensa() {
+    public int getDefensa() {
         return defensa;
     }
 
-    public void setDefensa(String defensa) {
+    public void setDefensa(int defensa) {
         this.defensa = defensa;
     }
 

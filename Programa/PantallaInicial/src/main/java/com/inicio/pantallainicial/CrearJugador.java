@@ -38,7 +38,7 @@ public class CrearJugador {
     void crear(ActionEvent event) {
         DBManager.loadDriver();
         DBManager.connect();
-        boolean exito= DBManager.insertJugador(txtNombre.getText(),txtAtaque.getText(),txtDefensa.getText(),txtDestreza.getText(), txtPosicion.getText());
+        boolean exito= DBManager.insertJugador(txtNombre.getText(), Integer.valueOf(txtDefensa.getText()), Integer.valueOf(txtAtaque.getText()), txtDestreza.getText(), txtPosicion.getText());
         DBManager.printTablaJugadores();
         if (exito) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -183,7 +183,7 @@ public class DBManager {
     /**
      * Solicita a la BD insertar un nuevo registro JUGADOR
      */
-    public static boolean insertJugador(String nombre, String defensa, String destreza, String tiro, String posicion) {
+    public static boolean insertJugador(String nombre, int defensa, int tiro, String destreza, String posicion) {
         try {
             // Obtenemos la tabla clientes
             System.out.print("Insertando cliente " + nombre + "...");
@@ -192,9 +192,9 @@ public class DBManager {
             // Insertamos el nuevo registro
             rs.moveToInsertRow();
             rs.updateString(DB_NOM, nombre);
-            rs.updateString(DB_TIR, tiro);
+            rs.updateInt(DB_TIR, tiro);
             rs.updateString(DB_DES, destreza);
-            rs.updateString(DB_DEF, defensa);
+            rs.updateInt(DB_DEF, defensa);
             rs.updateString(DB_POS, posicion);
             rs.insertRow();
 
@@ -223,7 +223,7 @@ public class DBManager {
             // Si tiene un primer registro, lo eliminamos
             if (rs.first()) {
                 rs.updateString(DB_NOM, nuevoNombre);
-                rs.updateString(DB_TIR, nuevoTiro);
+                rs.updateString(DB_TIR, nuevoTiro) ;
                 rs.updateString(DB_DES, nuevoDestreza);
                 rs.updateString(DB_DEF, nuevoDefensa);
                 rs.updateString(DB_POS, nuevoPosicion);
@@ -265,7 +265,7 @@ public class DBManager {
         try {
             // Realizamos la consulta SQL
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = DB_usuarios_select + " WHERE " + DB_Nombre_usuario + "=" + nombre + "and" + DB_Clave + "=" + clave + ";";
+            String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + nombre + "' and " + DB_Clave + "='" + clave + "';";
             //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
             //stmt.close();
@@ -280,6 +280,32 @@ public class DBManager {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean registrar(String nombre, String clave){
+        if(getUsuario(nombre, clave) == false) {
+            try {
+                // Obtenemos la tabla clientes
+                System.out.print("Creando cuenta " + nombre + "...");
+                ResultSet rs = getTablaUsuarios(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+
+                // Insertamos el nuevo registro
+                rs.moveToInsertRow();
+                rs.updateString(DB_Nombre_usuario, nombre);
+                rs.updateString(DB_Clave, clave);
+                rs.insertRow();
+
+                rs.close();
+                System.out.println("OK!");
+                return true;
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        } else{
             return false;
         }
     }

@@ -103,13 +103,13 @@ public class EditarEquipoController {
             DBManager.connect();
             ResultSet rs = DBManager.getTablaJugadores();
             while (rs.next()) {
-                String tiro = rs.getString("tiro");
+                int tiro = rs.getInt("tiro");
                 String destreza = rs.getString("destreza");
-                String defensa = rs.getString("defensa");
+                int defensa = rs.getInt("defensa");
                 String nombre = rs.getString("nombre");
                 String posicion = rs.getString("posicion");
                 //System.out.println(" " + id + " - " + nombre + " - " + ciudad);
-                this.jugadores.add(new Jugadores(tiro,destreza, nombre,defensa,posicion ));
+                this.jugadores.add(new Jugadores(nombre,tiro,destreza,defensa,posicion));
                 this.tablaListado.setItems(this.jugadores);
             }
         }catch (SQLException e) {

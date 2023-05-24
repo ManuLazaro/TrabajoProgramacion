@@ -23,7 +23,8 @@
                 <Button fx:id="btnEditarEquipo" layoutX="136.0" layoutY="247.0" mnemonicParsing="false" onAction="#editarEquipo" prefHeight="37.0" prefWidth="147.0" text="Editar equipo" />
                 <Button fx:id="btnCrearJugador" layoutX="136.0" layoutY="186.0" mnemonicParsing="false" onAction="#crearJugador" prefHeight="37.0" prefWidth="147.0" text="Crear jugador" />
                 <Button fx:id="btnEstadisticas" layoutX="136.0" layoutY="307.0" mnemonicParsing="false" onAction="#estadisticas" prefHeight="37.0" prefWidth="147.0" text="Estadisticas" />
-            <Button fx:id="btnSalir" layoutX="136.0" layoutY="369.0" mnemonicParsing="false" onAction="#salir" prefHeight="37.0" prefWidth="147.0" text="Salir" />
+            <Button fx:id="btnSalir" layoutX="29.0" layoutY="394.0" mnemonicParsing="false" onAction="#salir" prefHeight="25.0" prefWidth="52.0" text="Salir" />
+            <Button fx:id="btnCuenta" layoutX="337.0" layoutY="394.0" mnemonicParsing="false" onAction="#irACuenta" text="Cuenta" />
             </children>
         </AnchorPane>
     </children>

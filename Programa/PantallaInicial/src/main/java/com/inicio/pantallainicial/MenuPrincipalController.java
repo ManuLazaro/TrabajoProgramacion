@@ -16,6 +16,9 @@ public class MenuPrincipalController {
     private Button btnCrearJugador;
 
     @FXML
+    private Button btnCuenta;
+
+    @FXML
     private Button btnEditarEquipo;
 
     @FXML
@@ -84,6 +87,26 @@ public class MenuPrincipalController {
         }
 
         Stage stagePrincipal = (Stage) btnCrearJugador.getScene().getWindow();
+        stagePrincipal.close();
+    }
+
+    @FXML
+    void irACuenta(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Cuenta.fxml"));
+        try{
+            Parent root = fxmlLoader.load();
+            Cuenta controlador = fxmlLoader.getController();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("NBA Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+        Stage stagePrincipal = (Stage) btnCuenta.getScene().getWindow();
         stagePrincipal.close();
     }
 
