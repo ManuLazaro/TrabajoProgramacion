@@ -1,5 +1,7 @@
 package com.inicio.pantallainicial;
 
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 
 public class DBManager {
@@ -133,9 +135,9 @@ public class DBManager {
             while (rs.next()) {
 
                 String n = rs.getString(DB_NOM);
-                String t = rs.getString(DB_TIR);
+                int t = rs.getInt(DB_TIR);
                 String D = rs.getString(DB_DES);
-                String d = rs.getString(DB_DEF);
+                int d = rs.getInt(DB_DEF);
                 String p = rs.getString(DB_POS);
                 System.out.println(n + "\t" + t + "\t" + D + "\t" + d + "\t" +p );
             }
@@ -144,6 +146,7 @@ public class DBManager {
             ex.printStackTrace();
         }
     }
+
     //////////////////////////////////////////////////
     // MÉTODOS DE UN SOLO JUGADOR
     //////////////////////////////////////////////////
@@ -185,7 +188,7 @@ public class DBManager {
      */
     public static boolean insertJugador(String nombre, int defensa, int tiro, String destreza, String posicion) {
         try {
-            // Obtenemos la tabla clientes
+            // Obtenemos la tabla jugadores
             System.out.print("Insertando cliente " + nombre + "...");
             ResultSet rs = getTablaJugadores(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
@@ -208,7 +211,7 @@ public class DBManager {
             return false;
         }
     }
-    public static boolean updateJugador(String nombre, String nuevoNombre, String nuevoDefensa, String nuevoDestreza, String nuevoTiro, String nuevoPosicion) {
+    public static boolean updateJugador(String nombre, String nuevoNombre, int nuevoDefensa, String nuevoDestreza, int nuevoTiro, String nuevoPosicion) {
         try {
             // Obtenemos el jugador
             System.out.print("Actualizando equipo " + nombre + "... ");
@@ -223,9 +226,9 @@ public class DBManager {
             // Si tiene un primer registro, lo eliminamos
             if (rs.first()) {
                 rs.updateString(DB_NOM, nuevoNombre);
-                rs.updateString(DB_TIR, nuevoTiro) ;
+                rs.updateInt(DB_TIR, nuevoTiro); ;
                 rs.updateString(DB_DES, nuevoDestreza);
-                rs.updateString(DB_DEF, nuevoDefensa);
+                rs.updateInt(DB_DEF, nuevoDefensa);
                 rs.updateString(DB_POS, nuevoPosicion);
                 rs.updateRow();
                 rs.close();
@@ -260,7 +263,8 @@ public class DBManager {
     public static ResultSet getTablaUsusarios() {
         return getTablaUsuarios(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
     }
-    
+
+    private static String usuarioNombre = "";
     public static boolean getUsuario(String nombre, String clave) {
         try {
             // Realizamos la consulta SQL
@@ -270,12 +274,13 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(sql);
             //stmt.close();
 
-            // Si no hay primer registro entonces no existe el cliente
+            // Si no hay primer registro entonces no existe el usuario
             if (!rs.first()) {
                 return false;
             }
 
             // Todo bien, devolvemos el cliente
+            usuarioNombre = nombre;
             return true;
 
         } catch (SQLException ex) {
@@ -287,7 +292,7 @@ public class DBManager {
     public static boolean registrar(String nombre, String clave){
         if(getUsuario(nombre, clave) == false) {
             try {
-                // Obtenemos la tabla clientes
+                // Obtenemos la tabla de las cuentas
                 System.out.print("Creando cuenta " + nombre + "...");
                 ResultSet rs = getTablaUsuarios(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
@@ -306,6 +311,25 @@ public class DBManager {
                 return false;
             }
         } else{
+            return false;
+        }
+    }
+
+    public static boolean borrarCuenta(String clave) {
+        if(getUsuario(usuarioNombre, clave)){
+            System.out.print("Borrando cuenta...");
+            try {
+                Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "' and " + DB_Clave + "='" + clave + "';";
+                //System.out.println(sql);
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.first();
+                rs.deleteRow();
+                return true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
             return false;
         }
     }
