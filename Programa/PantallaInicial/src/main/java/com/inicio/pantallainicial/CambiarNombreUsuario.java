@@ -1,5 +1,50 @@
 package com.inicio.pantallainicial;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
 public class CambiarNombreUsuario {
+
+    @FXML
+    private Button btnAplicar;
+
+    @FXML
+    private Button btnVolver;
+
+    @FXML
+    private TextField txtNuevoNombre;
+
+    @FXML
+    void aplicar(ActionEvent event) {
+
+    }
+
+    @FXML
+    void volver(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Cuenta.fxml"));
+        try{
+            Parent root = fxmlLoader.load();
+            Cuenta controlador = fxmlLoader.getController();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("NBA Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+        Stage stagePrincipal = (Stage) btnVolver.getScene().getWindow();
+        stagePrincipal.close();
+    }
 
 }

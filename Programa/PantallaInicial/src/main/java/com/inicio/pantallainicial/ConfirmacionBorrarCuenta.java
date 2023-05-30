@@ -28,7 +28,7 @@ public class ConfirmacionBorrarCuenta {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("Cuenta.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
-            Cuenta controlador = (Cuenta) fxmlLoader.getController();
+            Cuenta controlador = fxmlLoader.getController();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle("NBA Manager");
@@ -56,7 +56,7 @@ public class ConfirmacionBorrarCuenta {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("PantallaInicial.fxml"));
             try {
                 Parent root = (Parent)fxmlLoader.load();
-                InicioController controlador = (InicioController)fxmlLoader.getController();
+                InicioController controlador = fxmlLoader.getController();
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setTitle("NBA Manager");

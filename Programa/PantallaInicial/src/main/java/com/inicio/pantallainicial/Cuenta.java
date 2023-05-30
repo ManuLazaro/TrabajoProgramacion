@@ -29,7 +29,7 @@ public class Cuenta {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("ConfirmacionBorrarCuenta.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
-            ConfirmacionBorrarCuenta controlador = (ConfirmacionBorrarCuenta)fxmlLoader.getController();
+            ConfirmacionBorrarCuenta controlador = fxmlLoader.getController();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle("Borrar cuenta");
@@ -48,7 +48,7 @@ public class Cuenta {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("CambiarClave.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
-            CambiarClave controlador = (CambiarClave)fxmlLoader.getController();
+            CambiarClave controlador = fxmlLoader.getController();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle("Cambiar Clave");
@@ -67,7 +67,7 @@ public class Cuenta {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("CambiarNombreUsuario.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
-            CambiarNombreUsuario controlador = (CambiarNombreUsuario)fxmlLoader.getController();
+            CambiarNombreUsuario controlador = fxmlLoader.getController();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle("Cambiar Nombre");

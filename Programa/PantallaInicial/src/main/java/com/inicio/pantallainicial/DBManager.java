@@ -265,6 +265,7 @@ public class DBManager {
     }
 
     private static String usuarioNombre = "";
+    private static String usuarioClave = "";
     public static boolean getUsuario(String nombre, String clave) {
         try {
             // Realizamos la consulta SQL
@@ -281,6 +282,7 @@ public class DBManager {
 
             // Todo bien, devolvemos el cliente
             usuarioNombre = nombre;
+            usuarioClave = clave;
             return true;
 
         } catch (SQLException ex) {
@@ -332,6 +334,22 @@ public class DBManager {
         } else {
             return false;
         }
+    }
+
+    public static boolean cambiarNombre(String nombre){
+            try {
+                Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "';";
+                //System.out.println(sql);
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.first();
+                rs.updateString(DB_Nombre_usuario, nombre);
+                rs.updateRow();
+                return true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
     }
 }
 
