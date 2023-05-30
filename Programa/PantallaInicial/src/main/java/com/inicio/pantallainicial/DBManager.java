@@ -1,7 +1,5 @@
 package com.inicio.pantallainicial;
 
-import javafx.scene.control.Alert;
-
 import java.sql.*;
 
 public class DBManager {
@@ -33,7 +31,6 @@ public class DBManager {
 
     // Configuracion de la tabla usuarios
     private static final String DB_usuarios = "usuarios";
-    private static final String DB_ID_usuarios = "idUsuarios";
     private static final String DB_Clave = "Clave";
     private static final String DB_Nombre_usuario = "Nombre";
 
@@ -322,7 +319,7 @@ public class DBManager {
             System.out.print("Borrando cuenta...");
             try {
                 Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "' and " + DB_Clave + "='" + clave + "';";
+                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "'" + DB_Clave + "='" + clave + "';";
                 //System.out.println(sql);
                 ResultSet rs = stmt.executeQuery(sql);
                 rs.first();
