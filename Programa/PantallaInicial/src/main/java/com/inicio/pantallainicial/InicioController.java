@@ -31,7 +31,7 @@ public class InicioController {
         DBManager.loadDriver();
         DBManager.connect();
         DBManager.isConnected();
-        if (DBManager.getUsuario(txtUsuario.getText(), txtContraseña.getText()) == true) {
+        if (DBManager.getUsuario(txtUsuario.getText(), txtContraseña.getText())) {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("MenuPrincipal.fxml"));
             try {
                 Parent root = (Parent)fxmlLoader.load();
