@@ -319,14 +319,15 @@ public class DBManager {
             System.out.print("Borrando cuenta...");
             try {
                 Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "'" + DB_Clave + "='" + clave + "';";
+                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "' and " + DB_Clave + "='" + clave + "';";
                 //System.out.println(sql);
                 ResultSet rs = stmt.executeQuery(sql);
                 rs.first();
                 rs.deleteRow();
                 return true;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                return false;
             }
         } else {
             return false;
@@ -342,11 +343,33 @@ public class DBManager {
                 rs.first();
                 rs.updateString(DB_Nombre_usuario, nombre);
                 rs.updateRow();
+                usuarioNombre = nombre;
                 return true;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                return false;
             }
+    }
 
+    public static boolean cambiarClave(String claveVieja, String claveNueva){
+        if(getUsuario(usuarioNombre, claveVieja)) {
+            try {
+                Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "' and " + DB_Clave + "='" + claveVieja + "';";
+                System.out.println(sql);
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.first();
+                rs.updateString(DB_Clave, claveNueva);
+                rs.updateRow();
+                usuarioClave = claveNueva;
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
 
