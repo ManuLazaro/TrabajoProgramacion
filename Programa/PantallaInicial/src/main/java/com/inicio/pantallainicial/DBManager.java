@@ -36,6 +36,13 @@ public class DBManager {
 
     private static final String DB_usuarios_select = "SELECT * FROM " + DB_usuarios;
 
+    // Configuración de la tabla estadisticas
+    private static final String DB_usuario_estadisticas = "nombreUsuarios";
+    private static final String DB_dificultad = "Dificultad";
+    private static final String DB_resultado = "Resultado";
+
+    private static final String DB_estadisticas_select = "SELECT * FROM " + DB_usuario_estadisticas;
+
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
     //////////////////////////////////////////////////
@@ -356,7 +363,7 @@ public class DBManager {
             try {
                 Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 String sql = DB_usuarios_select + " where " + DB_Nombre_usuario + "='" + usuarioNombre + "' and " + DB_Clave + "='" + claveVieja + "';";
-                System.out.println(sql);
+                //System.out.println(sql);
                 ResultSet rs = stmt.executeQuery(sql);
                 rs.first();
                 rs.updateString(DB_Clave, claveNueva);
@@ -369,6 +376,23 @@ public class DBManager {
             }
         } else {
             return false;
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // MÉTODOS DE ESTADISTICAS
+    //////////////////////////////////////////////////
+
+    public static String usuarioEstadisticas(){
+        try {
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = "SELECT nombreUsuarios from estadisticas where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+            String tmp = rs.getString("nombreUsuarios");
+            return tmp;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
         }
     }
 }
