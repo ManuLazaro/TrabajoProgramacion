@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="465.0" prefWidth="443.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inicio.pantallainicial.Estadisticas">
    <children>
-      <Button fx:id="btnVolver" layoutX="197.0" layoutY="378.0" mnemonicParsing="false" onAction="#volver" text="Volver" />
-      <TableView layoutX="90.0" layoutY="122.0" prefHeight="222.0" prefWidth="263.0">
+      <Button fx:id="btnVolver" layoutX="197.0" layoutY="390.0" mnemonicParsing="false" onAction="#volver" text="Volver" />
+      <TableView fx:id="tableEstadisticas" layoutX="88.0" layoutY="102.0" prefHeight="262.0" prefWidth="269.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="columUsuario" prefWidth="89.0" text="Usuario" />
+          <TableColumn fx:id="columResultado" prefWidth="93.0" text="Resultado" />
+            <TableColumn fx:id="columDificultad" prefWidth="86.0" text="Dificultad" />
         </columns>
       </TableView>
-      <Label layoutX="113.0" layoutY="42.0" text="ESTADISTICAS">
+      <Label layoutX="113.0" layoutY="38.0" text="ESTADISTICAS">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>

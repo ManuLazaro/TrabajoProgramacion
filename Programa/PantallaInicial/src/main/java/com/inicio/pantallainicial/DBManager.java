@@ -383,16 +383,14 @@ public class DBManager {
     // MÉTODOS DE ESTADISTICAS
     //////////////////////////////////////////////////
 
-    public static String usuarioEstadisticas(){
+    public void usuarioEstadisticas(){
         try {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = "SELECT nombreUsuarios from estadisticas where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
+            String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
             ResultSet rs = stmt.executeQuery(sql);
-            String tmp = rs.getString("nombreUsuarios");
-            return tmp;
+            Resultados temp = new Resultados(rs.getString("nombreUsuarios"), rs.getString("Dificultad"), rs.getInt("Resultado"));
         } catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
     }
 }
