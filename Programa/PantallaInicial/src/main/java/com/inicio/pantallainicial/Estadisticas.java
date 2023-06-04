@@ -48,4 +48,9 @@ public class Estadisticas {
         Stage stagePrincipal = (Stage) btnVolver.getScene().getWindow();
         stagePrincipal.close();
     }
+
+    void establecer(){
+
+        columUsuario.setCellValueFactory();
+    }
 }

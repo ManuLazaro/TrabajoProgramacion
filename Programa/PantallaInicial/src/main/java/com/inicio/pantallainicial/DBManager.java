@@ -383,14 +383,42 @@ public class DBManager {
     // MÉTODOS DE ESTADISTICAS
     //////////////////////////////////////////////////
 
-    public void usuarioEstadisticas(){
+    public String usuarioEstadisticas(){
         try {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
             ResultSet rs = stmt.executeQuery(sql);
-            Resultados temp = new Resultados(rs.getString("nombreUsuarios"), rs.getString("Dificultad"), rs.getInt("Resultado"));
+            Resultados temp = new Resultados(rs.getString("nombreUsuarios"));
+            return String.valueOf(temp);
         } catch (SQLException e){
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String dificultadEstadisticas(){
+        try {
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+            Resultados temp = new Resultados(rs.getString("Dificultad"));
+            return String.valueOf(temp);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String ResultadoEstadisticas(){
+        try {
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+            Resultados temp = new Resultados(rs.getString("Resultado"));
+            return String.valueOf(temp);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
         }
     }
 }
