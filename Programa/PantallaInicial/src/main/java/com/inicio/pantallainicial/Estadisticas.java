@@ -77,6 +77,5 @@ public class Estadisticas {
             }
         }
 
-        playerListView.setItems(lista);
     }
 }
