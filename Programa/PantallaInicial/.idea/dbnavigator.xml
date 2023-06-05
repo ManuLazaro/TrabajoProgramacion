@@ -24,6 +24,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="d0434966-9e82-4a4d-96ef-fc6dd5840b5b" dataset="nbamanager.usuarios" active-filter-id="" />
+    <filter-actions connection-id="d0434966-9e82-4a4d-96ef-fc6dd5840b5b" dataset="nbamanager.estadisticas" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

@@ -5,7 +5,7 @@ public class Resultados {
     private String dificultad;
     private int resultado;
 
-    public Resultados(String nombreUsuarios) {
+    public Resultados(String nombreUsuarios, String dificultad, int resultado) {
         this.nombreUsuarios = nombreUsuarios;
         this.dificultad = dificultad;
         this.resultado = resultado;

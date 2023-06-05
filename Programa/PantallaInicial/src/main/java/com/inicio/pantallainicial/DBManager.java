@@ -383,42 +383,58 @@ public class DBManager {
     // MÉTODOS DE ESTADISTICAS
     //////////////////////////////////////////////////
 
-    public String usuarioEstadisticas(){
+    public static ResultSet getTablaEstadisticas(int resultSetType, int resultSetConcurrency) {
+        try {
+
+            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
+            ResultSet rs = stmt.executeQuery(DB_estadisticas_select);
+            //stmt.close();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static ResultSet getTablEstadisticas() {
+        return getTablaUsuarios(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+    }
+
+    public static String usuarioEstadisticas(){
         try {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
             ResultSet rs = stmt.executeQuery(sql);
-            Resultados temp = new Resultados(rs.getString("nombreUsuarios"));
-            return String.valueOf(temp);
+            String temp = rs.getString("nombreUsuarios");
+            return temp;
         } catch (SQLException e){
             e.printStackTrace();
             return null;
         }
     }
 
-    public String dificultadEstadisticas(){
+    public static String dificultadEstadisticas(){
         try {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
             ResultSet rs = stmt.executeQuery(sql);
-            Resultados temp = new Resultados(rs.getString("Dificultad"));
-            return String.valueOf(temp);
+            String temp = rs.getString("Dificultad");
+            return temp;
         } catch (SQLException e){
             e.printStackTrace();
             return null;
         }
     }
 
-    public String ResultadoEstadisticas(){
+    public static int ResultadoEstadisticas(){
         try {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sql = DB_estadisticas_select + " where " + DB_usuario_estadisticas + "='" + usuarioNombre + "';";
             ResultSet rs = stmt.executeQuery(sql);
-            Resultados temp = new Resultados(rs.getString("Resultado"));
-            return String.valueOf(temp);
+            int temp = rs.getInt("Resultados");
+            return temp;
         } catch (SQLException e){
             e.printStackTrace();
-            return null;
+            return 0;
         }
     }
 }

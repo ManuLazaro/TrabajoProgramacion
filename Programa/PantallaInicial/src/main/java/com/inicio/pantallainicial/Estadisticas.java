@@ -1,5 +1,7 @@
 package com.inicio.pantallainicial;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Estadisticas {
 
@@ -49,8 +53,30 @@ public class Estadisticas {
         stagePrincipal.close();
     }
 
-    void establecer(){
+    public ObservableList<Resultados> lista = FXCollections.observableArrayList(
+            new Resultados(DBManager.usuarioEstadisticas(), DBManager.dificultadEstadisticas(), DBManager.ResultadoEstadisticas())
+    );
 
-        columUsuario.setCellValueFactory();
+
+    @FXML
+    private void initialize() {
+        // Obtener los jugadores de la base de datos y cargarlos en la lista
+        lista = FXCollections.observableArrayList();
+        ResultSet rs = DBManager.getTablaEstadisticas(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        if (rs != null) {
+            try {
+                while (rs.next()) {
+                    String nombre = rs.getString("nombreUsuarios");
+                    String Dificultad = rs.getString("Dificultad");
+                    int resultado = rs.getInt("Resultado");
+                    lista.add(new Resultados(nombre, Dificultad, resultado));
+                }
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        playerListView.setItems(lista);
     }
 }
