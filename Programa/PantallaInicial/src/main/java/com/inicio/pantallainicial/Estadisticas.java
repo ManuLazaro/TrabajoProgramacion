@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,16 +20,16 @@ import java.sql.SQLException;
 public class Estadisticas {
 
     @FXML
-    private TableColumn<?, ?> columDificultad;
+    private TableColumn<Resultados, String> columDificultad;
 
     @FXML
-    private TableColumn<?, ?> columResultado;
+    private TableColumn<Resultados, String> columResultado;
 
     @FXML
-    private TableColumn<?, ?> columUsuario;
+    private TableColumn<Resultados, String> columUsuario;
 
     @FXML
-    private TableView<?> tableEstadisticas;
+    private TableView<Resultados> tableEstadisticas;
 
     @FXML
     private Button btnVolver;
@@ -53,22 +54,22 @@ public class Estadisticas {
         stagePrincipal.close();
     }
 
-    public ObservableList<Resultados> lista = FXCollections.observableArrayList(
-            new Resultados(DBManager.usuarioEstadisticas(), DBManager.dificultadEstadisticas(), DBManager.ResultadoEstadisticas())
-    );
-
+    private ObservableList<Resultados> lista = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        // Obtener los jugadores de la base de datos y cargarlos en la lista
+        // Obtener los resultados de la base de datos y cargarlos en la lista
         lista = FXCollections.observableArrayList();
+        DBManager.loadDriver();
+        DBManager.connect();
+        DBManager.isConnected();
         ResultSet rs = DBManager.getTablaEstadisticas(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         if (rs != null) {
             try {
                 while (rs.next()) {
                     String nombre = rs.getString("nombreUsuarios");
                     String Dificultad = rs.getString("Dificultad");
-                    int resultado = rs.getInt("Resultado");
+                    String resultado = rs.getString("Resultado");
                     lista.add(new Resultados(nombre, Dificultad, resultado));
                 }
                 rs.close();
@@ -76,6 +77,10 @@ public class Estadisticas {
                 e.printStackTrace();
             }
         }
-
+        columUsuario.setCellValueFactory(new PropertyValueFactory<>("NombreUsuarios"));
+        columDificultad.setCellValueFactory(new PropertyValueFactory<>("Dificultad"));
+        columResultado.setCellValueFactory(new PropertyValueFactory<>("Resultado"));
+        tableEstadisticas.setItems(lista);
+        DBManager.close();
     }
 }

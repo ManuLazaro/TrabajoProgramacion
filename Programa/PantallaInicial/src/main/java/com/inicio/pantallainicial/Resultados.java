@@ -3,9 +3,9 @@ package com.inicio.pantallainicial;
 public class Resultados {
     private String nombreUsuarios;
     private String dificultad;
-    private int resultado;
+    private String resultado;
 
-    public Resultados(String nombreUsuarios, String dificultad, int resultado) {
+    public Resultados(String nombreUsuarios, String dificultad, String resultado) {
         this.nombreUsuarios = nombreUsuarios;
         this.dificultad = dificultad;
         this.resultado = resultado;
@@ -27,11 +27,11 @@ public class Resultados {
         this.dificultad = dificultad;
     }
 
-    public int getResultado() {
+    public String getResultado() {
         return resultado;
     }
 
-    public void setResultado(int resultado) {
+    public void setResultado(String resultado) {
         this.resultado = resultado;
     }
 }

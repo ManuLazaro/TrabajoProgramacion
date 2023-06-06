@@ -37,11 +37,12 @@ public class DBManager {
     private static final String DB_usuarios_select = "SELECT * FROM " + DB_usuarios;
 
     // Configuración de la tabla estadisticas
+    private static final String DB_estadisticas = "estadisticas";
     private static final String DB_usuario_estadisticas = "nombreUsuarios";
     private static final String DB_dificultad = "Dificultad";
     private static final String DB_resultado = "Resultado";
 
-    private static final String DB_estadisticas_select = "SELECT * FROM " + DB_usuario_estadisticas;
+    private static final String DB_estadisticas_select = "SELECT * FROM " + DB_estadisticas;
 
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
