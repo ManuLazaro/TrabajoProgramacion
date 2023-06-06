@@ -13,7 +13,7 @@ public class DBManager {
     private static final String DB_NAME = "nbamanager";
     private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "toor";
+    private static final String DB_PASS = "root";
     private static final String DB_MSQ_CONN_OK = "TE HAS CONECTADO A LA BASE DE DATOS";
     private static final String DB_MSQ_CONN_NO = "CONEXION FALLIDA";
 
@@ -28,6 +28,8 @@ public class DBManager {
     private static final String DB_TIR = "Tiro";
 
     private static final String DB_jugadores_select = "SELECT * FROM " + DB_jugadores;
+
+
 
     // Configuración de la tabla estadisticas
     private static final String DB_estadisticas = "estadisticas";
