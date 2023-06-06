@@ -1,0 +1,62 @@
+/* marcador */
+
+
+.marcador-texto {
+    -fx-font-size: 48px;
+    -fx-font-family: 'Press Start 2P', cursive;
+    -fx-font-weight: bold;
+    -fx-fill: #ffffff;
+}
+
+
+
+.boton-jugar {
+    -fx-background-color: linear-gradient(gray, white);
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+}
+
+
+.boton-salir {
+    -fx-background-color: #007bff;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+}
+.boton-jugar:hover {
+    -fx-background-color: #0056b3;
+}
+
+.boton-jugar:pressed {
+    -fx-background-color: #003e80;
+}
+.boton-salir:hover {
+    -fx-background-color: #0056b3;
+}
+
+.boton-salir:pressed {
+    -fx-background-color: #003e80;
+}
+
+AnchorPane {
+    -fx-background-color: #0f0a1e;
+
+}
+Text {
+    -fx-fill: white;
+    -fx-font-size: 30px;
+    -fx-text-alignment: center;
+    -fx-line-spacing: 5px;
+    -fx-height: 200px;
+    -fx-font-family: 'Press Start 2P', cursive;
+    -fx-font-weight: bold;
+
+}
+
+
+
+
+
