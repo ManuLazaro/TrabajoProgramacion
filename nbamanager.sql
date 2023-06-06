@@ -26,9 +26,11 @@ DROP TABLE IF EXISTS `estadisticas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `estadisticas` (
-  `Resultado` int DEFAULT NULL,
+  `Resultado` varchar(45) DEFAULT NULL,
   `Dificultad` varchar(45) DEFAULT NULL,
   `nombreUsuarios` varchar(45) NOT NULL,
+  `idPartida` int auto_increment,
+  PRIMARY KEY (`idPartida`),
   KEY `fk_Estadisticas_Usuarios1_idx` (`nombreUsuarios`),
   CONSTRAINT `fk_Estadisticas_Usuarios1` FOREIGN KEY (`nombreUsuarios`) REFERENCES `usuarios` (`Nombre`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -56,7 +58,7 @@ CREATE TABLE `jugadores` (
   `Posicion` varchar(20) DEFAULT NULL,
   `Tiro` int DEFAULT NULL,
   `Defensa` int DEFAULT NULL,
-  `Destreza` varchar(10) DEFAULT NULL,
+  `Destreza` int DEFAULT NULL,
   `Coste` int DEFAULT NULL,
   PRIMARY KEY (`idJugadores`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
@@ -68,7 +70,7 @@ CREATE TABLE `jugadores` (
 
 LOCK TABLES `jugadores` WRITE;
 /*!40000 ALTER TABLE `jugadores` DISABLE KEYS */;
-INSERT INTO `jugadores` VALUES (1,'Lebron James','Alero',87,13,'Tirar',35),(2,'Stephen Curry','Base',68,33,'Driblar',34),(3,'Giannis Antetokounmpo','Ala-Pivot',70,30,'Driblar',38),(4,'Nikola Jokić','Pivot',84,16,'Tirar',22),(5,'Anthony Davis','Ala-Pivot',64,36,'Tirar',34),(6,'Luka Dončić','Alero',68,32,'Driblar',36),(7,'Devin Booker','Escolta',20,80,'Defender',40),(8,'Damian Lillard','Base',24,76,'Defender',47),(9,'Jimmy Butler','Escolta',34,66,'Defender',29),(10,'Joel Embiid','Pivot',78,22,'Driblar',32);
+INSERT INTO `jugadores` VALUES (1,'Lebron James','Alero',87,13,72,35),(2,'Stephen Curry','Base',68,33,34,34),(3,'Giannis Antetokounmpo','Ala-Pivot',70,30,56,38),(4,'Nikola Jokić','Pivot',84,16,41,22),(5,'Anthony Davis','Ala-Pivot',64,36,12,34),(6,'Luka Dončić','Alero',68,32,89,36),(7,'Devin Booker','Escolta',20,80,62,40),(8,'Damian Lillard','Base',24,76,21,47),(9,'Jimmy Butler','Escolta',34,66,45,29),(10,'Joel Embiid','Pivot',78,22,58,32);
 /*!40000 ALTER TABLE `jugadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +94,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Pepe','Pepito'),(2,'Carlos','1234');
+INSERT INTO `usuarios` VALUES ('Pepe','Pepito'),('Carlos','1234');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
